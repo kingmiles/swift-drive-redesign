@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Production builds
+dist/
+dist-ssr/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Vercel local project state
+.vercel/
+
+# Local logs and package-manager output
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript build metadata
+*.tsbuildinfo
+
+# Operating-system files
+.DS_Store
+Thumbs.db
