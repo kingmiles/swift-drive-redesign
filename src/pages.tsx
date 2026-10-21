@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowDownRight, ArrowLeft, ArrowRight, Check, ChevronDown, CircleHelp, MoveUpRight, ShieldCheck } from "lucide-react";
 import { AppLink } from "./navigation";
 import { businessConfig, candidateVehicles, conceptImages, type VehicleCategory } from "./config/business";
@@ -29,10 +29,22 @@ const homeVehicleReferences = [
 
 export function HomePage({ onChooseVehicle }: { onChooseVehicle: (id: string) => void }) {
   const [referenceFilter, setReferenceFilter] = useState("All");
+  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   const filters = ["All", "SUV", "Pickup", "Bus", "Luxury Bus"];
   const visibleReferences = homeVehicleReferences.filter(
     (vehicle) => referenceFilter === "All" || vehicle.category === referenceFilter,
   );
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(motionPreference.matches);
+    updatePreference();
+    motionPreference.addEventListener("change", updatePreference);
+    return () => motionPreference.removeEventListener("change", updatePreference);
+  }, []);
 
   return (
     <>
@@ -43,6 +55,21 @@ export function HomePage({ onChooseVehicle }: { onChooseVehicle: (id: string) =>
           className="campaign-photo"
           preload
         />
+        {!prefersReducedMotion && !heroVideoFailed && (
+          <video
+            className="campaign-video"
+            aria-hidden="true"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={conceptImages.hero}
+            onError={() => setHeroVideoFailed(true)}
+          >
+            <source src={conceptImages.heroVideo} type="video/mp4" />
+          </video>
+        )}
         <div className="campaign-shade" />
         <div className="hero-copy">
           <span className="hero-kicker"><i /> EXECUTIVE MOBILITY · INDEPENDENT CONCEPT</span>

@@ -10,6 +10,7 @@ export interface Vehicle {
 
 export const conceptImages = {
   hero: "/images/vehicles/toyota-prado-black-onyx.jpg",
+  heroVideo: "/videos/swift-drive-hero.mp4",
   road: "/images/editorial/mercedes-eqs-interior.jpg",
   suv: "/images/vehicles/toyota-prado-white-2025.jpg",
   blackHilux: "/images/vehicles/toyota-hilux-black-2024.jpg",

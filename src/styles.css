@@ -277,7 +277,8 @@ p {
 }
 
 .campaign-photo,
-.campaign-photo img {
+.campaign-photo img,
+.campaign-video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -293,6 +294,16 @@ p {
 
 .campaign-photo img {
   object-position: 68% 52%;
+  filter: grayscale(1) contrast(1.04);
+}
+
+.campaign-video {
+  z-index: 0;
+  right: 0;
+  left: auto;
+  width: 57%;
+  object-fit: cover;
+  object-position: 72% 70%;
   filter: grayscale(1) contrast(1.04);
 }
 
@@ -1645,6 +1656,13 @@ p {
 
   .campaign-photo img {
     object-position: 68% center;
+  }
+
+  .campaign-video {
+    right: 0;
+    left: 0;
+    width: 100%;
+    object-position: 76% center;
   }
 
   .campaign-shade {
