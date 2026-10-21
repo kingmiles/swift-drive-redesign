@@ -27,9 +27,10 @@ export function VehicleImage({
         src={src}
         alt={alt ?? ""}
         loading={preload ? "eager" : "lazy"}
-        onError={(event) => event.currentTarget.parentElement?.classList.add("image-fallback")}
+        onError={(event) => {
+          event.currentTarget.parentElement?.classList.add("image-fallback");
+        }}
       />
-      <span className="image-fallback-copy" aria-hidden="true">Owner-approved vehicle photography to be added</span>
     </div>
   );
 }
@@ -128,6 +129,7 @@ export function SiteFooter() {
         <span>© {new Date().getFullYear()} Swift Drive concept</span>
         <span>Independent concept redesign — not the official website.</span>
         <span>Vehicle, service and contact details require owner confirmation.</span>
+        <a href="/images/credits.html">Image credits</a>
       </div>
     </footer>
   );

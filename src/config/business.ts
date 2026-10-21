@@ -9,9 +9,13 @@ export interface Vehicle {
 }
 
 export const conceptImages = {
-  hero: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2200&q=90",
-  road: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=2000&q=85",
-  suv: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=85",
+  hero: "/images/vehicles/toyota-prado-black-onyx.jpg",
+  road: "/images/editorial/mercedes-eqs-interior.jpg",
+  suv: "/images/vehicles/toyota-prado-white-2025.jpg",
+  blackHilux: "/images/vehicles/toyota-hilux-black-2024.jpg",
+  whiteHilux: "/images/vehicles/toyota-hilux-white-2024.jpg",
+  sprinter: "/images/vehicles/mercedes-sprinter-black.jpg",
+  coach: "/images/vehicles/executive-coach.jpg",
 };
 
 export const businessConfig = {
@@ -34,27 +38,27 @@ export const candidateVehicles: Vehicle[] = [
     name: "Toyota Prado",
     category: "SUV",
     image: conceptImages.suv,
-    imageAlt: "Illustrative premium SUV; the specific vehicle is not verified.",
+    imageAlt: "White 2025 Toyota Land Cruiser Prado 250 reference photograph; not a verified Swift Drive vehicle.",
   },
   {
     id: "toyota-hilux",
     name: "Toyota Hilux",
     category: "Pickup",
-    image: "https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=1000&q=85",
-    imageAlt: "Illustrative pickup truck; the specific vehicle is not verified.",
+    image: conceptImages.blackHilux,
+    imageAlt: "Black 2024 Toyota Hilux reference photograph; not a verified Swift Drive vehicle.",
   },
   {
     id: "lexus-gx-460",
     name: "Lexus GX 460",
     category: "SUV",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1000&q=85",
-    imageAlt: "Illustrative luxury SUV; the specific vehicle is not verified.",
+    image: "/images/vehicles/lexus-gx-460.jpg",
+    imageAlt: "Lexus GX 460 reference photograph; not a verified Swift Drive vehicle.",
   },
   {
     id: "toyota-rav4",
     name: "Toyota RAV4",
     category: "SUV",
-    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=85",
-    imageAlt: "Illustrative crossover vehicle; the specific vehicle is not verified.",
+    image: "/images/vehicles/toyota-rav4.jpg",
+    imageAlt: "Toyota RAV4 reference photograph; not a verified Swift Drive vehicle.",
   },
 ];

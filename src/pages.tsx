@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { ArrowDownRight, ArrowLeft, ArrowRight, Check, ChevronDown, CircleHelp, MoveUpRight, ShieldCheck } from "lucide-react";
 import { AppLink } from "./navigation";
 import { businessConfig, candidateVehicles, conceptImages, type VehicleCategory } from "./config/business";
-import { VehicleImage, VehicleTile } from "./components/SiteFrame";
+import { VehicleImage } from "./components/SiteFrame";
 
 export type EnquiryForm = {
   vehicleId: string;
@@ -19,85 +19,108 @@ export type EnquiryForm = {
   notes: string;
 };
 
+const homeVehicleReferences = [
+  { name: "Toyota Land Cruiser Prado", category: "SUV", image: conceptImages.hero, alt: "Black Toyota Land Cruiser Prado Black Onyx reference photograph; not a verified Swift Drive vehicle", vehicleId: "toyota-prado" },
+  { name: "Toyota Hilux (Black)", category: "Pickup", image: conceptImages.blackHilux, alt: "Black 2024 Toyota Hilux pickup reference photograph; not a verified Swift Drive vehicle", vehicleId: "toyota-hilux" },
+  { name: "Toyota Hilux (White)", category: "Pickup", image: conceptImages.whiteHilux, alt: "White 2024 Toyota Hilux pickup reference photograph; not a verified Swift Drive vehicle", vehicleId: "toyota-hilux" },
+  { name: "Mercedes-Benz Sprinter", category: "Bus", image: conceptImages.sprinter, alt: "Mercedes-Benz Sprinter passenger van reference photograph; not a verified Swift Drive vehicle" },
+  { name: "Luxury coach", category: "Luxury Bus", image: conceptImages.coach, alt: "Luxury passenger coach reference photograph; not a verified Swift Drive vehicle" },
+];
+
 export function HomePage({ onChooseVehicle }: { onChooseVehicle: (id: string) => void }) {
+  const [referenceFilter, setReferenceFilter] = useState("All");
+  const filters = ["All", "SUV", "Pickup", "Bus", "Luxury Bus"];
+  const visibleReferences = homeVehicleReferences.filter(
+    (vehicle) => referenceFilter === "All" || vehicle.category === referenceFilter,
+  );
+
   return (
     <>
       <section className="campaign-hero">
         <VehicleImage
           src={conceptImages.hero}
-          alt="Illustrative cinematic image of a luxury sports car in low light"
+          alt="Black Toyota Land Cruiser Prado reference photograph; not a verified Swift Drive vehicle"
           className="campaign-photo"
           preload
         />
         <div className="campaign-shade" />
         <div className="hero-copy">
-          <span className="hero-kicker"><i /> AN INDEPENDENT SWIFT DRIVE CONCEPT</span>
-          <h1>ARRIVE WITH<br /><em>PRESENCE.</em></h1>
-          <p>Executive mobility, tailored around your journey.</p>
+          <span className="hero-kicker"><i /> EXECUTIVE MOBILITY · INDEPENDENT CONCEPT</span>
+          <h1>Luxury Transport<br />for Every Destination</h1>
+          <p>Explore illustrative vehicle references. Fleet details and availability need owner confirmation.</p>
           <div className="hero-actions">
-            <AppLink to="/fleet" className="button button-red">Explore Our Fleet <ArrowRight size={16} /></AppLink>
-            <AppLink to="/book" className="button button-glass">Book a Ride <MoveUpRight size={15} /></AppLink>
+            <AppLink to="/book" className="button button-glass">Book Your Ride <ArrowRight size={15} /></AppLink>
           </div>
         </div>
-        <div className="hero-caption"><span>AN INDEPENDENT CONCEPT</span><i /><span>ILLUSTRATIVE AUTOMOTIVE PHOTOGRAPHY</span></div>
-        <div className="hero-side-index">01 <span /> 05</div>
-        <a className="hero-scroll" href="#brand-note"><span>SCROLL TO DISCOVER</span><ArrowDownRight size={16} /></a>
+        <a className="hero-scroll" href="#home-fleet"><span>DISCOVER THE VEHICLES</span><ArrowDownRight size={16} /></a>
       </section>
 
-      <section className="brand-note" id="brand-note">
-        <div className="section-shell brand-note-grid">
-          <span className="section-kicker">A NOTE ON THIS CONCEPT <i /></span>
-          <h2>Built around<br /><em>what’s confirmed.</em></h2>
-          <div className="brand-note-copy">
-            <p>This independent visual concept keeps business details out of assumption. Vehicle models below were named in the project brief; the current fleet, services, contact channels and locations need owner verification.</p>
-            <AppLink to="/contact" className="text-link">See what still needs confirming <ArrowRight size={15} /></AppLink>
-          </div>
-          <div className="note-index">SD<span> / </span>01</div>
-        </div>
-      </section>
-
-      <section className="home-fleet">
+      <section className="home-fleet" id="home-fleet">
         <div className="section-shell">
-          <div className="section-heading editorial-heading">
-            <div><span className="section-kicker">A FIRST LOOK <i /></span><h2>Machines with<br /><em>quiet presence.</em></h2></div>
-            <div className="heading-aside"><p>Model names mentioned in the supplied brief. Fleet listings and availability have not been verified.</p><AppLink to="/fleet" className="text-link">View all vehicles <ArrowRight size={15} /></AppLink></div>
-          </div>
-          <div className="featured-vehicles">
-            <VehicleTile vehicleId="toyota-prado" onChooseVehicle={onChooseVehicle} />
-            <VehicleTile vehicleId="lexus-gx-460" onChooseVehicle={onChooseVehicle} compact />
-            <div className="fleet-invite">
-              <span>THE FULL COLLECTION</span>
-              <p>Explore the models referenced in the brief, and enquire about the one that fits your plans.</p>
-              <AppLink to="/fleet" aria-label="Explore the fleet"><ArrowRight size={20} /></AppLink>
-              <small>LISTINGS PENDING VERIFICATION</small>
+          <div className="fleet-heading">
+            <div className="fleet-heading-title">
+              <span className="section-kicker">OUR FLEET</span>
+              <h2>Premium Vehicles for<br />Every Journey</h2>
             </div>
+            <AppLink to="/fleet" className="text-link fleet-all-link">View all vehicles <ArrowRight size={15} /></AppLink>
+            <div className="home-fleet-filters" role="group" aria-label="Filter vehicle references">
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  type="button"
+                  className={`fleet-filter${referenceFilter === filter ? " is-active" : ""}`}
+                  aria-pressed={referenceFilter === filter}
+                  onClick={() => setReferenceFilter(filter)}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="reference-vehicles">
+            {visibleReferences.map((vehicle) => (
+              <figure className="reference-vehicle" key={vehicle.name}>
+                <div className="image-frame reference-vehicle-image">
+                  <img src={vehicle.image} alt={vehicle.alt} loading="lazy" />
+                </div>
+                <figcaption>
+                  <strong>{vehicle.name}</strong>
+                  {"vehicleId" in vehicle && vehicle.vehicleId && (
+                    <button type="button" className="reference-enquire" aria-label={`Enquire about ${vehicle.name}`} onClick={() => onChooseVehicle(vehicle.vehicleId)}>
+                      <ArrowRight size={15} />
+                    </button>
+                  )}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="fleet-section-footer">
+            <p className="reference-note">Illustrative photographs only. Pictured models do not confirm fleet inventory, specifications or availability.</p>
+            <AppLink to="/fleet" className="text-link">Explore vehicle references <ArrowRight size={15} /></AppLink>
           </div>
         </div>
       </section>
 
       <section className="service-preview">
         <VehicleImage
-          src={conceptImages.road}
-          alt="Illustrative view of an open road from inside a vehicle"
+          src={conceptImages.hero}
+          alt="Monochrome illustrative photograph of a Toyota Land Cruiser Prado"
           className="service-preview-photo"
         />
-        <div className="service-preview-copy">
-          <span className="section-kicker light-kicker">THE JOURNEY, FIRST <i /></span>
-          <h2>Every detail<br />begins with <em>a conversation.</em></h2>
-          <p>Service information has not yet been confirmed. Share your journey requirements and ask the business what it can arrange.</p>
-          <AppLink to="/services" className="button button-ivory">Discover Services <ArrowRight size={15} /></AppLink>
+        <div className="service-preview-inner section-shell">
+          <div className="service-preview-copy">
+            <span className="section-kicker light-kicker">OUR SERVICES</span>
+            <h2>More Than Just a Ride</h2>
+            <p>Service details are awaiting owner confirmation. Share your requirements and ask the business what it can arrange.</p>
+            <AppLink to="/services" className="button button-glass">Explore Services <ArrowRight size={15} /></AppLink>
+          </div>
+          <div className="service-preview-action">
+            <span>START WITH YOUR JOURNEY</span>
+            <p>Availability and arrangements require direct confirmation.</p>
+            <AppLink to="/book" className="service-book-link">Prepare an enquiry <MoveUpRight size={15} /></AppLink>
+          </div>
         </div>
-        <span className="service-photo-label">ILLUSTRATIVE PHOTOGRAPHY</span>
-      </section>
-
-      <section className="home-booking">
-        <div className="section-shell booking-callout">
-          <span className="section-kicker">THE NEXT STEP <i /></span>
-          <h2>Your plans.<br /><em>Your enquiry.</em></h2>
-          <p>Share the essentials. The business will need to confirm availability and reservation details directly.</p>
-          <AppLink to="/book" className="button button-red">Book a Ride <ArrowRight size={16} /></AppLink>
-          <span className="callout-number">02<span> / </span>05</span>
-        </div>
+        <span className="service-photo-label">ILLUSTRATIVE PHOTOGRAPHY · NOT CONFIRMED INVENTORY</span>
       </section>
     </>
   );
@@ -236,7 +259,7 @@ export function ServicesPage() {
   return (
     <section className="inner-page services-page">
       <div className="services-masthead">
-        <VehicleImage src={conceptImages.road} alt="Illustrative road view from a vehicle" className="services-masthead-photo" />
+        <VehicleImage src={conceptImages.road} alt="Monochrome view of the dashboard and cabin in a Mercedes-Benz EQS" className="services-masthead-photo" />
         <div className="services-masthead-shade" />
         <div className="section-shell services-masthead-copy"><span className="section-kicker light-kicker">THE EXPERIENCE <i /></span><h1>The journey<br /><em>is yours.</em></h1><p>Service information is being held for confirmation—not assumption.</p><span className="services-visual-note">ILLUSTRATIVE PHOTOGRAPHY</span></div>
       </div>
